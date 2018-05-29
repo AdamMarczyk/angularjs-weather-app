@@ -43,6 +43,10 @@ weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService
 
   $scope.convertToCelcius = function (degK) {
     return degK - 273;
-  }
+  };
+
+  $scope.convertToDate = function (dt) {
+    return new Date(dt * 1000);
+  };
 
 }]);
