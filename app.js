@@ -41,4 +41,8 @@ weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService
 
   $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: 2 });
 
+  $scope.convertToCelcius = function (degK) {
+    return degK - 273;
+  }
+
 }]);
