@@ -8,10 +8,14 @@ weatherApp.config(function ($routeProvider) {
       templateUrl: 'pages/home.html',
       controller: 'homeController',
     })
-    .when('/', {
+    .when('/forecast', {
       templateUrl: 'pages/forecast.html',
       controller: 'forecastController',
-    });
+    })
+    .when('/forecast:days', {
+      templateUrl: 'pages/forecast.html',
+      controller: 'forecastController',
+    })
 
 });
 
@@ -21,7 +25,7 @@ weatherApp.service('cityService', function () {
 
 });
 
-weatherApp.controller('homeController', ['$scope', 'cityService', function ($scope, $cityService) {
+weatherApp.controller('homeController', ['$scope', 'cityService', function ($scope, cityService) {
 
   $scope.city = cityService.city;
 
@@ -31,9 +35,11 @@ weatherApp.controller('homeController', ['$scope', 'cityService', function ($sco
   });
 }]);
 
-weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService', function ($scope, $resource, $cityService) {
+weatherApp.controller('forecastController', ['$scope', '$resource', '$routeParams', 'cityService', function ($scope, $resource, $routeParams, cityService) {
 
   $scope.city = cityService.city;
+
+  $scope.days = $routeParams.days || 2;
 
   $scope.weatherAPI = $resource("http://api.com", {
     callback: "JSON_CALLBACK"
@@ -41,7 +47,7 @@ weatherApp.controller('forecastController', ['$scope', '$resource', 'cityService
 
   $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: 2 });
 
-  $scope.convertToCelcius = function (degK) {
+  $scope.convertToCelsius = function (degK) {
     return degK - 273;
   };
 
